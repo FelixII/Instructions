@@ -33,6 +33,12 @@ public class OverlayManager {
         }
     }
 
+    public var cutoutBorderColor: UIColor? {
+        didSet {
+            overlayStyleManager.cutoutBorderColor = cutoutBorderColor
+        }
+    }
+
     /// Duration to use when hiding/showing the overlay.
     public var fadeAnimationDuration = Constants.overlayFadeAnimationDuration
 

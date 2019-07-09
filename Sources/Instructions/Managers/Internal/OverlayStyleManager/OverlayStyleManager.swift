@@ -38,6 +38,8 @@ protocol OverlayStyleManager: class {
     /// The overlay managed by the styleManager.
     var overlayView: OverlayView? { get set }
 
+    var cutoutBorderColor: UIColor? { get set }
+
     /// Called when the size of usable screen space will change.
     func viewWillTransition()
 

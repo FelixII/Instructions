@@ -25,6 +25,7 @@ import UIKit
 class TranslucentOverlayStyleManager: OverlayStyleManager {
     // MARK: Properties
     weak var overlayView: OverlayView?
+    var cutoutBorderColor: UIColor?
 
     // MARK: Private Properties
     private var onGoingTransition = false
@@ -36,6 +37,7 @@ class TranslucentOverlayStyleManager: OverlayStyleManager {
     private lazy var overlayLayer: CALayer = {
         return self.createSublayer()
     }()
+    private lazy var borderLayer: CAShapeLayer = CAShapeLayer()
 
     // MARK: Initialization
     init(color: UIColor) {
@@ -125,6 +127,7 @@ class TranslucentOverlayStyleManager: OverlayStyleManager {
     private func updateCutoutPath() {
         cutoutMaskLayer.removeFromSuperlayer()
         fullMaskLayer.removeFromSuperlayer()
+        borderLayer.removeFromSuperlayer()
 
         guard let cutoutPath = overlayView?.cutoutPath else {
             overlayLayer.mask = nil
@@ -140,6 +143,14 @@ class TranslucentOverlayStyleManager: OverlayStyleManager {
         maskLayer.addSublayer(self.fullMaskLayer)
 
         overlayLayer.mask = maskLayer
+
+        if let cutoutBorderColor = self.cutoutBorderColor {
+            self.borderLayer.path = cutoutPath.cgPath
+            self.borderLayer.strokeColor = cutoutBorderColor.cgColor
+            self.borderLayer.fillColor = UIColor.clear.cgColor
+            self.borderLayer.lineWidth = 3.0
+            self.overlayView?.holder.layer.addSublayer(borderLayer)
+        }
     }
 
     private func configureCutoutMask(usingCutoutPath cutoutPath: UIBezierPath) {

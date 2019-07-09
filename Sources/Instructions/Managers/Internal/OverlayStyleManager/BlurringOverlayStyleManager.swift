@@ -50,6 +50,8 @@ class BlurringOverlayStyleManager: OverlayStyleManager {
         }
     }
 
+    var cutoutBorderColor: UIColor?
+
     /// Will provide shapshot to use for animations involving blurs.
     weak var snapshotDelegate: Snapshottable?
 
